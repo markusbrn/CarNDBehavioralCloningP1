@@ -2,7 +2,8 @@
 
 ##Writeup
 The code I have been using for the Behavioral Cloning Project relies heavily on the code samples presented in the tutorial on the Udacity website. It can be found in the file model.ipynb.
-I am using the images provided by udacity as well as the associated steering angle information from the driving_log file. I am reading the test images with opencv and then (as opencv reads images in BGR format) I am transforming them to RGB. By flipping the test images and inverting the steering angle for the corresponding image as well I am generating additional data to train my network. In order to increase memory efficiency I am using a generator function for this whole operation. This means that the set of training images is split into batches and only the currently needed batch is loaded in memory. The same procedure is applied for the validation data
+I am using the images provided by udacity as well as the associated steering angle information from the driving_log file. I am reading the test images with opencv and then (as opencv reads images in BGR format) I am transforming them to RGB. By flipping the test images and inverting the steering angle for the corresponding image as well I am generating additional data to train my network. To avoid overfitting the samples are shuffled.
+In order to increase memory efficiency I am using a generator function for this whole operation. This means that the set of training images is split into batches and only the currently needed batch is loaded in memory. The same procedure is applied for the validation data
 For my network I am using the NVIDIA structure as it was presented in the udacity tutorial. This means that the network has the following layout:
 
 | Layer                      |     Description                              | 
@@ -11,6 +12,7 @@ For my network I am using the NVIDIA structure as it was presented in the udacit
 | Cropping 2D                | remove upper (not relevant) section of images| 
 | 5xConv2D w. relu activ.    | extract features from image                  | 
 | Flatten + 5xfully connected| 5 fully connected layers                     | 
+(To further reduce overfitting, dropout layer(s) could be included - as the model is performing already so that the car stays on the track this step was omitted)
 
 The output of the network is then a prediction of the steering angle.
 
